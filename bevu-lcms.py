@@ -60,11 +60,11 @@ def analyse_spectrum(spectrum, mass_list, output_name):
         retention_time = s.getRT()
         for mass in mass_int:
             for item in mass_list:
-                if abs(mass[0]-item.single) <= 0.3 and mass[1] > 10000:
+                if abs(mass[0]-item.single) <= 0.1 and mass[1] > 10000:
                     item.single_found.append(Hit(mass=mass[0], intensity=mass[1], retention_tiem=retention_time))
-                if abs(mass[0]-item.double) <= 0.3:
+                if abs(mass[0]-item.double) <= 0.1 and mass[1] > 10000:
                     item.double_found.append(Hit(mass=mass[0], intensity=mass[1], retention_tiem=retention_time))
-                if abs(mass[0]-item.triple) <= 0.3:
+                if abs(mass[0]-item.triple) <= 0.1 and mass[1] > 10000:
                     item.triple_found.append(Hit(mass=mass[0], intensity=mass[1], retention_tiem=retention_time))
 
     mass_list = sorted(mass_list)

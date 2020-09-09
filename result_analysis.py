@@ -1,12 +1,12 @@
 import glob
 
+file_list = glob.glob('/home/b/Desktop/LC-MS/Analysis/fragments_1/*')
 
-file_list_junk = glob.glob('/home/b/Desktop/LC-MS/Analysis/*')
-file_list_junk.sort()
-file_list = [i for i in file_list_junk if '_K' not in i]
-file_list_junk = glob.glob('/home/b/Desktop/LC-MS/Analysis/*')
-file_list_junk.sort()
-file_list += [i for i in file_list_junk if '_K' in i]
+file_list.sort(key=lambda x:int(x.split('sample')[1].split('_')[0]))
+new_file_list = [i for i in file_list if '_K' not in i]
+new_file_list_2 = [i for i in file_list if '_K' in i]
+file_list = new_file_list+new_file_list_2
+
 my_dict = dict()
 
 
@@ -27,19 +27,29 @@ for file in file_list:
                     my_dict[sequence] = Hit()
                 n_found = in_file.readline().strip().split('\t')[1]
                 junk, max_int, ret_time, mass = in_file.readline().strip().split('\t')
+                max_int = max_int.replace('.', ',')
+                ret_time = ret_time.replace('.', ',')
+                mass = mass.replace('.', ',')
                 my_dict[sequence].single_items.append((n_found, max_int, ret_time, mass))
 
                 n_found = in_file.readline().strip().split('\t')[1]
                 junk, max_int, ret_time, mass = in_file.readline().strip().split('\t')
+                max_int = max_int.replace('.', ',')
+                ret_time = ret_time.replace('.', ',')
+                mass = mass.replace('.', ',')
                 my_dict[sequence].double_items.append((n_found, max_int, ret_time, mass))
+
 
                 n_found = in_file.readline().strip().split('\t')[1]
                 junk, max_int, ret_time, mass = in_file.readline().strip().split('\t')
+                max_int = max_int.replace('.', ',')
+                ret_time = ret_time.replace('.', ',')
+                mass = mass.replace('.', ',')
                 my_dict[sequence].triple_items.append((n_found, max_int, ret_time, mass))
 
+
 for item in my_dict:
-    with open('/home/b/Desktop/LC-MS/Individual_analysis_1/'+item, 'wt') as out_file:
-        out_file.write(item+'\n')
+    with open('/home/b/Desktop/LC-MS/individual_analysis_1/'+item, 'wt') as out_file:
         for i in my_dict[item].single_items:
             out_file.write('\t'.join(i)+'\n')
         for i in my_dict[item].double_items:
